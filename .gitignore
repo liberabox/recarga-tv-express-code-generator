@@ -1,0 +1,7 @@
+.idea/
+vendor/
+.phpunit.result.cache
+infection.log
+testdox.txt
+.env
+banco.sqlite

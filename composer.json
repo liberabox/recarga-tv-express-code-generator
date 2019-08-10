@@ -1,0 +1,35 @@
+{
+  "name": "cviniciussdias/recargatvexpress",
+  "description": "Sistema para ler e-mails recebidos em uma caixa e enviar um código para o endereço contido neles",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Vinicius Dias",
+      "email": "carlosv775@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "CViniciusSDias\\RecargaTvExpress\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "CViniciusSDias\\RecargaTvExpress\\Tests\\": "tests"
+    }
+  },
+  "require": {
+    "php-imap/php-imap": "^3.0",
+    "symfony/mailer": "^4.3",
+    "php-di/php-di": "^6.0",
+    "symfony/google-mailer": "^4.3",
+    "ext-pdo": "*",
+    "ext-pdo_mysql": "*",
+    "vlucas/phpdotenv": "^3.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.3",
+    "infection/infection": "^0.13.4"
+  }
+}

@@ -1,0 +1,11 @@
+<phpunit bootstrap="bootstrap.php">
+    <testsuites>
+        <testsuite name="all">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <logging>
+        <log type="testdox-text" target="testdox.txt" />
+    </logging>
+</phpunit>
