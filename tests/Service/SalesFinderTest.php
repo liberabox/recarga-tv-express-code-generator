@@ -10,16 +10,25 @@ use PHPUnit\Framework\TestCase;
 
 class SalesFinderTest extends TestCase
 {
-    public function testShouldReturnEmptyArrayIfThereAreNoEmails()
+    private $mailbox;
+
+    protected function setUp(): void
     {
         $mailboxMock = $this->getMockBuilder(Mailbox::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $mailboxMock->expects($this->once())
+
+        $this->mailbox = $mailboxMock;
+    }
+
+    public function testShouldReturnEmptyArrayIfThereAreNoEmails()
+    {
+        $this->mailbox->expects($this->once())
             ->method('searchMailbox')
             ->with('FROM "wolneidias@gmail.com" SUBJECT "recebeu um pagamento por TV express" UNSEEN')
             ->willReturn([]);
-        $salesFinder = new SalesFinder($mailboxMock);
+
+        $salesFinder = new SalesFinder($this->mailbox);
         $sales = $salesFinder->findSales();
 
         $this->assertCount(0, $sales);
@@ -58,14 +67,11 @@ class SalesFinderTest extends TestCase
             ->method('__get')
             ->with($this->equalTo('textPlain'))
             ->willReturn($emailBody);
-        $mailboxMock = $this->getMockBuilder(Mailbox::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mailboxMock->expects($this->once())
+        $this->mailbox->expects($this->once())
             ->method('searchMailbox')
             ->with('FROM "wolneidias@gmail.com" SUBJECT "recebeu um pagamento por TV express" UNSEEN')
             ->willReturn([1, 2]);
-        $mailboxMock->expects($this->exactly(2))
+        $this->mailbox->expects($this->exactly(2))
             ->method('getMail')
             ->withConsecutive(
                 [$this->equalTo(1)],
@@ -73,7 +79,7 @@ class SalesFinderTest extends TestCase
             )
             ->willReturn($incomingMailMock);
 
-        $salesFinder = new SalesFinder($mailboxMock);
+        $salesFinder = new SalesFinder($this->mailbox);
         $sales = $salesFinder->findSales();
 
         $this->assertCount(2, $sales);
