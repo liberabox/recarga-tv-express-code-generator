@@ -40,15 +40,16 @@ class SalesFinder
 
     private function parseEmail(IncomingMail $mail): ?Sale
     {
-        $lines = explode("\n", $mail->textPlain);
-        foreach ($lines as $line) {
-            $email = filter_var(trim($line), FILTER_VALIDATE_EMAIL);
+        $domDocument = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        $domDocument->loadHTML($mail->textHtml);
+        $xPath = new \DOMXPath($domDocument);
+        $email = $xPath
+            ->query('/html/body/table[3]/tr/td/div[2]/p[3]')
+            ->item(0)
+            ->textContent;
+        $product = str_replace('Você recebeu um pagamento por TV express', '', $mail->subject);
 
-            if ($email !== false) {
-                $product = str_replace('Você recebeu um pagamento por TV express', '', $mail->subject);
-                return new Sale(new Email($email), $product);
-            }
-        }
-        return null;
+        return new Sale(new Email($email), $product);
     }
 }

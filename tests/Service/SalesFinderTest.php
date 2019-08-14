@@ -25,7 +25,7 @@ class SalesFinderTest extends TestCase
     {
         $this->mailbox->expects($this->once())
             ->method('searchMailbox')
-            ->with('FROM "wolneidias@gmail.com" SUBJECT "recebeu um pagamento por TV express" UNSEEN')
+            ->with('FROM "info@mercadopago.com" SUBJECT "recebeu um pagamento por TV express" UNSEEN')
             ->willReturn([]);
 
         $salesFinder = new SalesFinder($this->mailbox);
@@ -36,40 +36,19 @@ class SalesFinderTest extends TestCase
 
     public function testShouldReturnSalesArrayInCaseOfSuccess()
     {
-        $emailBody = <<<EMAIL
-        Express,
-        Foi creditado um pagamento na sua conta do Mercado Pago.
-        
-        Pagamento: R$ 000,00
-        
-        Tarifa do Mercado Pago: R$ -0,00
-        
-        Total creditado na sua conta: R$ 000,00
-        
-        Número da operação: 0000000000
-        
-        Contraparte:
-        
-        Client Name
-        
-        (19) 3589-1868
-        
-        email@test.com 
-        
-        Mercado Pago
-        EMAIL;
-        $emailSubject = 'Você recebeu um pagamento por TV express ';
+        $emailBody = file_get_contents(__DIR__ . '/../data/email.html');
+        $emailSubject = 'Você recebeu um pagamento por TV express anual';
 
         $incomingMailMock = $this->getMockBuilder(IncomingMail::class)
             ->getMock();
-        $incomingMailMock->subject = $emailSubject . 'anual';
+        $incomingMailMock->subject = $emailSubject;
         $incomingMailMock->expects($this->exactly(2))
             ->method('__get')
-            ->with($this->equalTo('textPlain'))
+            ->with($this->equalTo('textHtml'))
             ->willReturn($emailBody);
         $this->mailbox->expects($this->once())
             ->method('searchMailbox')
-            ->with('FROM "wolneidias@gmail.com" SUBJECT "recebeu um pagamento por TV express" UNSEEN')
+            ->with('FROM "info@mercadopago.com" SUBJECT "recebeu um pagamento por TV express" UNSEEN')
             ->willReturn([1, 2]);
         $this->mailbox->expects($this->exactly(2))
             ->method('getMail')
@@ -87,6 +66,6 @@ class SalesFinderTest extends TestCase
         $this->assertTrue($sales[0]->product === $sales[1]->product);
         $this->assertEquals('anual', $sales[0]->product);
         $this->assertTrue($sales[0]->costumerEmail == $sales[1]->costumerEmail);
-        $this->assertEquals('email@test.com', $sales[0]->costumerEmail);
+        $this->assertEquals('nunes_pereira5@hotmail.com', $sales[0]->costumerEmail);
     }
 }
