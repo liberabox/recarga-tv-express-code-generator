@@ -1,6 +1,6 @@
 CREATE TABLE serial_codes (
-    id INTEGER PRIMARY KEY,
-    serial TEXT,
-    user_email TEXT,
-    product TEXT
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    serial CHAR(16) UNIQUE NOT NULL,
+    user_email VARCHAR(255) DEFAULT NULL,
+    product VARCHAR(6)
 );
