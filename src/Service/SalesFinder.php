@@ -23,7 +23,7 @@ class SalesFinder
     public function findSales(): array
     {
         $this->mailIds = $this->mailbox
-            ->searchMailbox('FROM "wolneidias@gmail.com" SUBJECT "recebeu um pagamento por TV express" UNSEEN');
+            ->searchMailbox('FROM "info@mercadopago.com" SUBJECT "recebeu um pagamento por TV express" UNSEEN');
 
         if (empty($this->mailIds)) {
             return [];
