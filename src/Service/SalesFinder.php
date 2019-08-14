@@ -46,10 +46,7 @@ class SalesFinder
         $xPath = new \DOMXPath($domDocument);
         $dataNodes = $xPath
             ->query('/html/body/table[3]/tr/td/div[2]/p');
-        $emailNode = $dataNodes->length === 2
-            ? $dataNodes->item(1)
-            : $dataNodes->item(2);
-        $email = $emailNode->textContent;
+        $email = $dataNodes->item($dataNodes->length - 1)->textContent;
         $product = str_replace('Você recebeu um pagamento por TV express', '', $mail->subject);
 
         return new Sale(new Email($email), $product);

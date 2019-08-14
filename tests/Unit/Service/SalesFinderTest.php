@@ -80,7 +80,8 @@ class SalesFinderTest extends TestCase
         $dataDir = __DIR__ . '/../../data';
         return [
             'Without phone' => [file_get_contents("$dataDir/email-without-phone.html")],
-            'With phone' => [file_get_contents("$dataDir/email-without-phone.html")]
+            'With phone' => [file_get_contents("$dataDir/email-without-phone.html")],
+            'Without name' => [file_get_contents("$dataDir/email-without-name.html")],
         ];
     }
 }
