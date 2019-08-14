@@ -16,10 +16,12 @@ $builder->addDefinitions([
     'imapPath' => env('IMAP_PATH'),
     'imapLogin' => env('IMAP_LOGIN'),
     'imapPassword' => env('IMAP_PASSWORD'),
-    'dsn' => env('DSN'),
+    'dsn' => env('DB_DSN'),
+    'dbPassword' => env('DB_PASSWORD'),
+    'dbUser' => env('DB_USER'),
     \PDO::class => factory(function (ContainerInterface $c) {
         $password = $c->has('dbPassword') ? $c->get('dbPassword') : null;
-        $user = $c->has('user') ? $c->get('user') : null;
+        $user = $c->has('dbUser') ? $c->get('dbUser') : null;
         $dsn = $c->get('dsn');
 
         return new \PDO($dsn, $user, $password);
