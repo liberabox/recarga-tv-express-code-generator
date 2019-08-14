@@ -44,10 +44,12 @@ class SalesFinder
         libxml_use_internal_errors(true);
         $domDocument->loadHTML($mail->textHtml);
         $xPath = new \DOMXPath($domDocument);
-        $email = $xPath
-            ->query('/html/body/table[3]/tr/td/div[2]/p[3]')
-            ->item(0)
-            ->textContent;
+        $dataNodes = $xPath
+            ->query('/html/body/table[3]/tr/td/div[2]/p');
+        $emailNode = $dataNodes->length === 2
+            ? $dataNodes->item(1)
+            : $dataNodes->item(2);
+        $email = $emailNode->textContent;
         $product = str_replace('Você recebeu um pagamento por TV express', '', $mail->subject);
 
         return new Sale(new Email($email), $product);
