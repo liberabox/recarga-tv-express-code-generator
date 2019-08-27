@@ -44,11 +44,19 @@ class SalesFinder
         libxml_use_internal_errors(true);
         $domDocument->loadHTML($mail->textHtml);
         $xPath = new \DOMXPath($domDocument);
-        $dataNodes = $xPath
-            ->query('/html/body/table[3]/tr/td/div[2]/p');
-        $email = $dataNodes->item($dataNodes->length - 1)->textContent;
+
+        $query = $this->isSaleWithTwoCreditCards($xPath)
+            ? '/html/body/table/tr/td/table[3]/tr/td/table/tr/td/table[4]/tr/td/table[last()]'
+            : '/html/body/table[3]/tr/td/div[2]/p';
+        $dataNodes = $xPath->query($query);
+        $email = trim($dataNodes->item($dataNodes->length - 1)->textContent);
         $product = str_replace('Você recebeu um pagamento por TV express', '', $mail->subject);
 
         return new Sale(new Email($email), $product);
+    }
+
+    private function isSaleWithTwoCreditCards(\DOMXPath $xPath): bool
+    {
+        return $xPath->query('/html/body/table')->length === 1;
     }
 }

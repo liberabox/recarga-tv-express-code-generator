@@ -82,6 +82,7 @@ class SalesFinderTest extends TestCase
             'Without phone' => [file_get_contents("$dataDir/email-without-phone.html")],
             'With phone' => [file_get_contents("$dataDir/email-without-phone.html")],
             'Without name' => [file_get_contents("$dataDir/email-without-name.html")],
+            'With two credit cards' => [file_get_contents("$dataDir/email-with-two-credit-cards.html")],
         ];
     }
 }
