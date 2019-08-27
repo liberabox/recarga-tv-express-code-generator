@@ -1,12 +1,14 @@
 {
-    "timeout": 2,
+    "timeout": 1,
     "source": {
         "directories": [
             "src"
         ]
     },
     "logs": {
-        "text": "infection.log"
+        "text": "infection.log",
+        "summary": "summary.txt",
+        "perMutator": "per-mutator.md"
     },
     "mutators": {
         "@default": true

@@ -2,6 +2,8 @@
 vendor/
 .phpunit.result.cache
 infection.log
+summary.txt
+per-mutator.md
 testdox.txt
 .env
 banco.sqlite
