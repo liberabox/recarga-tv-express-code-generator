@@ -24,6 +24,10 @@ class CodeRepository
         $stm->execute();
 
         $serialCode = $stm->fetch(PDO::FETCH_NUM);
+        if (false === $serialCode) {
+            throw new \DomainException('No unused code found for this sale');
+        }
+
         return new Code(...$serialCode);
     }
 

@@ -35,7 +35,7 @@ class CodeRepositoryTest extends TestCase
         self::$con->exec('DELETE FROM serial_codes;');
     }
 
-    public function testSqlShouldFindOneUnusedCodeForASale()
+    public function testShouldFindOneUnusedCodeForASale()
     {
         // Arrange
         $this->insertCode('4321', 'anual');
@@ -52,6 +52,22 @@ class CodeRepositoryTest extends TestCase
         self::assertSame('1234', $code->serial);
     }
 
+    public function testShouldNotFindAnyUnusedCodeForASaleIfThereAreNone()
+    {
+        // Assert
+        $this->expectExceptionMessage('No unused code found for this sale');
+
+        // Arrange
+        $this->insertCode('4321', 'anual');
+        $this->insertCode('1111', 'anual');
+
+        $codeRepository = new CodeRepository(self::$con);
+        $sale = new Sale(new Email('email@example.com'), 'mensal');
+
+        // Act
+        $codeRepository->findUnusedCodeFor($sale);
+    }
+
     public function testShouldFindExactNumberOfAvailableCodes()
     {
         // Arrange
@@ -66,6 +82,15 @@ class CodeRepositoryTest extends TestCase
 
         self::assertEquals(2, $numberOfAvailableCodes['anual']);
         self::assertEquals(3, $numberOfAvailableCodes['mensal']);
+    }
+
+    public function testShouldNotFindAnyAvailableCodesIfThereAreNone()
+    {
+        $codeRepository = new CodeRepository(self::$con);
+        $numberOfAvailableCodes = $codeRepository->findNumberOfAvailableCodes();
+
+        self::assertEquals(0, $numberOfAvailableCodes['anual']);
+        self::assertEquals(0, $numberOfAvailableCodes['mensal']);
     }
 
     private function insertCode(string $serial, string $product)
