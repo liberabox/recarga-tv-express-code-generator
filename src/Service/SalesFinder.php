@@ -35,7 +35,7 @@ class SalesFinder
 
             $sales[] = $this->parseEmail($mail);
         }
-        return array_filter($sales);
+        return $sales;
     }
 
     private function parseEmail(IncomingMail $mail): ?Sale

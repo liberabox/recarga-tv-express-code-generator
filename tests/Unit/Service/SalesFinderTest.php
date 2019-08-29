@@ -15,9 +15,7 @@ class SalesFinderTest extends TestCase
 
     protected function setUp(): void
     {
-        $mailboxMock = $this->getMockBuilder(Mailbox::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailboxMock = $this->createMock(Mailbox::class);
 
         $this->mailbox = $mailboxMock;
         $this->searchCriteria = 'FROM "info@mercadopago.com" SUBJECT "recebeu um pagamento por TV express" UNSEEN';
@@ -69,10 +67,10 @@ class SalesFinderTest extends TestCase
 
         $this->assertCount(2, $sales);
         $this->assertContainsOnlyInstancesOf(Sale::class, $sales);
-        $this->assertTrue($sales[0]->product === $sales[1]->product);
-        $this->assertEquals('anual', $sales[0]->product);
-        $this->assertTrue($sales[0]->costumerEmail == $sales[1]->costumerEmail);
-        $this->assertEquals('email@test.com', $sales[0]->costumerEmail);
+        $this->assertSame($sales[0]->product, $sales[1]->product);
+        $this->assertSame('anual', $sales[0]->product);
+        $this->assertEquals($sales[0]->costumerEmail, $sales[1]->costumerEmail);
+        $this->assertEquals('email@example.com', $sales[0]->costumerEmail);
     }
 
     public function emails(): array
