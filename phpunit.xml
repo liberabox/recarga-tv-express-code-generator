@@ -6,7 +6,8 @@
     </testsuites>
 
     <logging>
-        <log type="testdox-text" target="testdox.txt" />
+        <log type="testdox-text" target="qa/testdox.txt" />
+        <log type="coverage-html" target="qa/html-coverage" lowUpperBound="30" highLowerBound="75"/>
     </logging>
 
     <filter>

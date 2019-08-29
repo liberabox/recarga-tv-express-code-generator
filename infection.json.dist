@@ -6,9 +6,9 @@
         ]
     },
     "logs": {
-        "text": "infection.log",
-        "summary": "summary.txt",
-        "perMutator": "per-mutator.md"
+        "text": "qa/infection.log",
+        "summary": "qa/summary.txt",
+        "perMutator": "qa/per-mutator.md"
     },
     "mutators": {
         "@default": true

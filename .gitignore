@@ -1,5 +1,6 @@
 .idea/
 vendor/
+qa
 .phpunit.result.cache
 infection.log
 summary.txt
