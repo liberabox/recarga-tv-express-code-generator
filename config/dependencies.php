@@ -1,5 +1,6 @@
 <?php
 
+use CViniciusSDias\RecargaTvExpress\Service\{EmailParser, MercadoPagoEmailParser, PayPalEmailParser};
 use CViniciusSDias\RecargaTvExpress\Service\SerialCodeGenerator;
 use CViniciusSDias\RecargaTvExpress\Service\SerialCodeSender;
 use DI\ContainerBuilder;
@@ -34,7 +35,10 @@ $builder->addDefinitions([
     Mailer::class => create(Mailer::class)->constructor(get(GmailTransport::class)),
     MailerInterface::class => get(Mailer::class),
     SerialCodeSender::class => create()
-        ->constructor(get(MailerInterface::class), get(SerialCodeGenerator::class), get('imapLogin'))
+        ->constructor(get(MailerInterface::class), get(SerialCodeGenerator::class), get('imapLogin')),
+    EmailParser::class => factory(function (ContainerInterface $c) {
+        return new MercadoPagoEmailParser(new PayPalEmailParser());
+    }),
 ]);
 
 return $builder->build();

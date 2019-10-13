@@ -3,6 +3,9 @@
 namespace CViniciusSDias\RecargaTvExpress\Tests\Service;
 
 use CViniciusSDias\RecargaTvExpress\Model\Sale;
+use CViniciusSDias\RecargaTvExpress\Service\EmailParser;
+use CViniciusSDias\RecargaTvExpress\Service\MercadoPagoEmailParser;
+use CViniciusSDias\RecargaTvExpress\Service\PayPalEmailParser;
 use CViniciusSDias\RecargaTvExpress\Service\SalesFinder;
 use PhpImap\IncomingMail;
 use PhpImap\Mailbox;
@@ -12,13 +15,16 @@ class SalesFinderTest extends TestCase
 {
     private $mailbox;
     private $searchCriteria;
+    /** @var EmailParser */
+    private $emailParser;
 
     protected function setUp(): void
     {
         $mailboxMock = $this->createMock(Mailbox::class);
 
         $this->mailbox = $mailboxMock;
-        $this->searchCriteria = 'FROM "info@mercadopago.com" SUBJECT "recebeu um pagamento por TV express" UNSEEN';
+        $this->searchCriteria = 'UNSEEN';
+        $this->emailParser = new MercadoPagoEmailParser(new PayPalEmailParser());
     }
 
     public function testShouldReturnEmptyArrayIfThereAreNoEmails()
@@ -28,7 +34,7 @@ class SalesFinderTest extends TestCase
             ->with($this->searchCriteria)
             ->willReturn([]);
 
-        $salesFinder = new SalesFinder($this->mailbox);
+        $salesFinder = new SalesFinder($this->mailbox, $this->emailParser);
         $sales = $salesFinder->findSales();
 
         $this->assertCount(0, $sales);
@@ -38,13 +44,14 @@ class SalesFinderTest extends TestCase
      * @dataProvider emails
      * @param string $emailBody
      */
-    public function testShouldReturnASalesArrayOnSuccessCase(string $emailBody)
+    public function testShouldReturnASalesArrayOnSuccessCase(string $emailBody, string $emailFrom)
     {
-        $emailSubject = 'Você recebeu um pagamento por TV express anual';
+        $emailSubject = 'Você recebeu um pagamento por TVE anual';
 
         $incomingMailMock = $this->getMockBuilder(IncomingMail::class)
             ->getMock();
         $incomingMailMock->subject = $emailSubject;
+        $incomingMailMock->fromAddress = $emailFrom;
         $incomingMailMock->expects($this->exactly(2))
             ->method('__get')
             ->with($this->equalTo('textHtml'))
@@ -62,7 +69,7 @@ class SalesFinderTest extends TestCase
             )
             ->willReturn($incomingMailMock);
 
-        $salesFinder = new SalesFinder($this->mailbox);
+        $salesFinder = new SalesFinder($this->mailbox, $this->emailParser);
         $sales = $salesFinder->findSales();
 
         $this->assertCount(2, $sales);
@@ -77,10 +84,11 @@ class SalesFinderTest extends TestCase
     {
         $dataDir = __DIR__ . '/../../data';
         return [
-            'Without phone' => [file_get_contents("$dataDir/email-without-phone.html")],
-            'With phone' => [file_get_contents("$dataDir/email-without-phone.html")],
-            'Without name' => [file_get_contents("$dataDir/email-without-name.html")],
-            'With two credit cards' => [file_get_contents("$dataDir/email-with-two-credit-cards.html")],
+            'Without phone' => [file_get_contents("$dataDir/email-without-phone.html"), 'info@mercadopago.com'],
+            'With phone' => [file_get_contents("$dataDir/email-without-phone.html"), 'info@mercadopago.com'],
+            'Without name' => [file_get_contents("$dataDir/email-without-name.html"), 'info@mercadopago.com'],
+            'With two credit cards' => [file_get_contents("$dataDir/email-with-two-credit-cards.html"), 'info@mercadopago.com'],
+            'With payment from paypal' => [file_get_contents("$dataDir/email-with-payment-from-paypal.html"), 'service@paypal.com.br'],
         ];
     }
 }
