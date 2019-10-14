@@ -37,7 +37,19 @@ $builder->addDefinitions([
     SerialCodeSender::class => create()
         ->constructor(get(MailerInterface::class), get(SerialCodeGenerator::class), get('imapLogin')),
     EmailParser::class => factory(function (ContainerInterface $c) {
-        return new MercadoPagoEmailParser(new PayPalEmailParser());
+        $nullParser = new class extends EmailParser
+        {
+            protected function parseEmail(\PhpImap\IncomingMail $email): ?\CViniciusSDias\RecargaTvExpress\Model\Sale
+            {
+                return null;
+            }
+
+            protected function canParse(\PhpImap\IncomingMail $email): bool
+            {
+                return true;
+            }
+        };
+        return new MercadoPagoEmailParser(new PayPalEmailParser($nullParser));
     }),
 ]);
 

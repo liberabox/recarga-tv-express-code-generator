@@ -36,6 +36,7 @@ class SalesFinder
 
             $sales[] = $this->emailParser->parse($mail);
         }
-        return $sales;
+
+        return array_filter($sales);
     }
 }
