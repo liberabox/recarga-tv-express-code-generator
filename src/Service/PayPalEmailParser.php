@@ -10,7 +10,7 @@ class PayPalEmailParser extends EmailParser
 {
     protected function canParse(IncomingMail $email): bool
     {
-        return $email->fromAddress === 'service@paypal.com.br';
+        return $email->fromAddress === 'service@paypal.com.br' && stripos($email->subject, 'Item') === 0;
     }
 
     protected function parseEmail(IncomingMail $email): ?Sale
