@@ -46,6 +46,7 @@ class SalesFinderTest extends TestCase
 
         // valid paypal e-mail
         $incomingMailMock2 = $this->createStub(IncomingMail::class);
+        $incomingMailMock2->subject = 'Item nº 12345';
         $incomingMailMock2->fromAddress = 'service@paypal.com.br';
         $incomingMailMock2->method('__get')
             ->willReturn(file_get_contents(__DIR__ . '/../../data/email-with-payment-from-paypal.html'));

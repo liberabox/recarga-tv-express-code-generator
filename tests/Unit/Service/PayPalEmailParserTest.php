@@ -17,6 +17,7 @@ class PayPalEmailParserTest extends TestCase
 
         $incomingMailMock = $this->createStub(IncomingMail::class);
         $incomingMailMock->fromAddress = 'service@paypal.com.br';
+        $incomingMailMock->subject = 'Item nº 1234256';
         $incomingMailMock->method('__get')
             ->willReturn($emailBody);
 
