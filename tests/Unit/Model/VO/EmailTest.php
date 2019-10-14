@@ -1,6 +1,6 @@
 <?php
 
-namespace CViniciusSDias\RecargaTvExpress\Tests\Model\VO;
+namespace CViniciusSDias\RecargaTvExpress\Tests\Unit\Model\VO;
 
 use CViniciusSDias\RecargaTvExpress\Model\VO\Email;
 use PHPUnit\Framework\TestCase;

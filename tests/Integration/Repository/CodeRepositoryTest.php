@@ -1,6 +1,6 @@
 <?php
 
-namespace CViniciusSDias\RecargaTvExpress\Tests\Repository;
+namespace CViniciusSDias\RecargaTvExpress\Tests\Integration\Repository;
 
 use CViniciusSDias\RecargaTvExpress\Model\Sale;
 use CViniciusSDias\RecargaTvExpress\Model\VO\Email;
