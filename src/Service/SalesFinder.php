@@ -7,11 +7,10 @@ use PhpImap\Mailbox;
 
 class SalesFinder
 {
-    private $mailbox;
+    private Mailbox $mailbox;
     /** @var int[] */
-    private $mailIds;
-    /** @var EmailParser */
-    private $emailParser;
+    private array $mailIds;
+    private EmailParser $emailParser;
 
     public function __construct(Mailbox $mailbox, EmailParser $emailParser)
     {

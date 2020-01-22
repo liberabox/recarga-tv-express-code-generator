@@ -13,9 +13,9 @@ class Code
 {
     use PropertyAccess;
 
-    private $id;
-    private $serial;
-    private $userEmail;
+    private int $id;
+    private string $serial;
+    private ?Email $userEmail;
 
     public function __construct(int $id, string $serial, Email $userEmail = null)
     {

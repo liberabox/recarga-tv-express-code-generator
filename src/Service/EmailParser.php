@@ -8,7 +8,7 @@ use PhpImap\IncomingMail;
 abstract class EmailParser
 {
     /** @var EmailParser */
-    protected $next;
+    protected ?EmailParser $next;
 
     public function __construct(EmailParser $next = null)
     {

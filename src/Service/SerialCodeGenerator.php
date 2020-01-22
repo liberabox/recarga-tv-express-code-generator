@@ -8,8 +8,8 @@ use CViniciusSDias\RecargaTvExpress\Repository\CodeRepository;
 
 class SerialCodeGenerator
 {
-    private $repository;
-    private $con;
+    private CodeRepository $repository;
+    private \PDO $con;
 
     public function __construct(\PDO $con, CodeRepository $repository)
     {

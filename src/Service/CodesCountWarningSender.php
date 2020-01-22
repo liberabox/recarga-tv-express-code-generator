@@ -7,7 +7,7 @@ use Symfony\Component\Mime\Email;
 
 class CodesCountWarningSender
 {
-    private $mailer;
+    private MailerInterface $mailer;
 
     public function __construct(MailerInterface $mailer)
     {

@@ -12,8 +12,8 @@ class Sale
 {
     use PropertyAccess;
 
-    private $costumerEmail;
-    private $product;
+    private Email $costumerEmail;
+    private string $product;
 
     public function __construct(Email $costumerEmail, string $product)
     {

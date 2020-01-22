@@ -10,7 +10,7 @@ use PDO;
 
 class CodeRepository
 {
-    private $con;
+    private PDO $con;
 
     public function __construct(PDO $con)
     {

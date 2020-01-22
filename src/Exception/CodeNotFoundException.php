@@ -6,7 +6,7 @@ use CViniciusSDias\RecargaTvExpress\Model\Sale;
 
 class CodeNotFoundException extends \Exception
 {
-    private $sale;
+    private Sale $sale;
 
     public function __construct($message, Sale $sale)
     {

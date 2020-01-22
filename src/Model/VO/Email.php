@@ -4,7 +4,7 @@ namespace CViniciusSDias\RecargaTvExpress\Model\VO;
 
 final class Email
 {
-    private $address;
+    private string $address;
 
     public function __construct(string $address)
     {

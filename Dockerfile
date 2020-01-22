@@ -1,7 +1,7 @@
-FROM php:7.3-cli
+FROM php:7.4-cli
 
 RUN apt-get update && apt-get install -y --no-install-recommends libc-client-dev libkrb5-dev
-RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
+RUN PHP_OPENSSL=yes docker-php-ext-configure imap --with-kerberos --with-imap-ssl
 RUN docker-php-ext-install imap
 
 RUN pecl install xdebug
