@@ -30,7 +30,12 @@ try {
         'erro' => $error
     ];
     if ($error instanceof CodeNotFoundException) {
-        $context['sale'] = $error->sale();
+        $sale = $error->sale();
+
+        $context['sale'] = [
+            'product' => $sale->product,
+            'costumerEmail' => $sale->costumerEmail,
+        ];
     }
 
     $logger->error('Erro ao enviar códigos.', $context);
