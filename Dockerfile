@@ -9,7 +9,8 @@ RUN docker-php-ext-enable xdebug
 
 RUN docker-php-ext-install pdo_mysql
 
-RUN apt-get install -y --no-install-recommends git zip
+RUN apt-get install -y --no-install-recommends git unzip zip libzip-dev
+RUN docker-php-ext-install zip
 
 RUN curl --silent --show-error https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/bin/composer
