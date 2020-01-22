@@ -2,6 +2,7 @@
 
 namespace CViniciusSDias\RecargaTvExpress\Repository;
 
+use CViniciusSDias\RecargaTvExpress\Exception\CodeNotFoundException;
 use CViniciusSDias\RecargaTvExpress\Model\Code;
 use CViniciusSDias\RecargaTvExpress\Model\Sale;
 use CViniciusSDias\RecargaTvExpress\Model\VO\Email;
@@ -25,7 +26,7 @@ class CodeRepository
 
         $serialCode = $stm->fetch(PDO::FETCH_NUM);
         if (false === $serialCode) {
-            throw new \DomainException('No unused code found for this sale');
+            throw new CodeNotFoundException('No unused code found for this sale', $sale);
         }
 
         return new Code(...$serialCode);

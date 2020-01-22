@@ -24,5 +24,8 @@ try {
 } catch (\Throwable $error) {
     /** @var LoggerInterface $logger */
     $logger = $container->get(LoggerInterface::class);
-    $logger->error('Erro ao enviar códigos.', ['mensagem' => $error->getMessage(), 'erro' => $error]);
+    $logger->error('Erro ao enviar códigos. Mensagem: ' . $error->getMessage(), [
+        'exception' => $error,
+        'erro' => $error
+    ]);
 }

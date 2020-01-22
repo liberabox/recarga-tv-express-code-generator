@@ -16,22 +16,26 @@ class MercadoPagoEmailParserTest extends TestCase
     public function testShouldParseCorrectlyASaleFromMercadoPagoEmails(string $emailBody)
     {
         // arrange
-        $emailSubject = 'Você recebeu um pagamento por P 2';
         $parser = new MercadoPagoEmailParser();
 
         $incomingMailMock = $this->createStub(IncomingMail::class);
-        $incomingMailMock->subject = $emailSubject;
+        $incomingMailMock->subject = ' Você recebeu um pagamento por P 1     ';
         $incomingMailMock->fromAddress = 'info@mercadopago.com';
         $incomingMailMock->method('__get')
             ->willReturn($emailBody);
 
+        $incomingMailMock2 = clone $incomingMailMock;
+        $incomingMailMock2->subject = ' Você recebeu um pagamento por P 2     ';
+
         // act
-        $sale = $parser->parse($incomingMailMock);
+        $sale1 = $parser->parse($incomingMailMock);
+        $sale2 = $parser->parse($incomingMailMock2);
 
         // assert
-        $this->assertInstanceOf(Sale::class, $sale);
-        $this->assertSame('anual', $sale->product);
-        $this->assertEquals('email@example.com', $sale->costumerEmail);
+        $this->assertInstanceOf(Sale::class, $sale1);
+        $this->assertSame('mensal', $sale1->product);
+        $this->assertSame('anual', $sale2->product);
+        $this->assertEquals('email@example.com', $sale1->costumerEmail);
     }
 
     public function testShouldRaiseErrorWhenTryingToParseUnsupportedEmail()
