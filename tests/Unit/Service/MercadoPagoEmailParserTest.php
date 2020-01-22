@@ -16,7 +16,7 @@ class MercadoPagoEmailParserTest extends TestCase
     public function testShouldReturnASalesArrayOnSuccessCase(string $emailBody)
     {
         // arrange
-        $emailSubject = 'Você recebeu um pagamento por TVE anual';
+        $emailSubject = 'Você recebeu um pagamento por P 2';
         $parser = new MercadoPagoEmailParser();
 
         $incomingMailMock = $this->createStub(IncomingMail::class);

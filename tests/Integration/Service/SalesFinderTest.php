@@ -39,7 +39,7 @@ class SalesFinderTest extends TestCase
 
         // valid mercado pago e-mail
         $incomingMailMock1 = $this->createStub(IncomingMail::class);
-        $incomingMailMock1->subject = 'Você recebeu um pagamento por TVE anual';
+        $incomingMailMock1->subject = 'Você recebeu um pagamento por P 2';
         $incomingMailMock1->fromAddress = 'info@mercadopago.com';
         $incomingMailMock1->method('__get')
             ->willReturn(file_get_contents(__DIR__ . '/../../data/email-without-phone.html'));
@@ -76,18 +76,6 @@ class SalesFinderTest extends TestCase
         $this->assertSame('anual', $sales[1]->product);
         $this->assertEquals('email@example.com', $sales[0]->costumerEmail);
         $this->assertEquals('email@example.com', $sales[1]->costumerEmail);
-    }
-
-    public function emails(): array
-    {
-        $dataDir = __DIR__ . '/../../data';
-
-        return [
-            'Without phone' => [file_get_contents("$dataDir/email-without-phone.html")],
-            'With phone' => [file_get_contents("$dataDir/email-without-phone.html")],
-            'Without name' => [file_get_contents("$dataDir/email-without-name.html")],
-            'With two credit cards' => [file_get_contents("$dataDir/email-with-two-credit-cards.html")],
-        ];
     }
 
     private function emailParser(): MercadoPagoEmailParser

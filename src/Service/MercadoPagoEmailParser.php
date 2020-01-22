@@ -20,7 +20,8 @@ class MercadoPagoEmailParser extends EmailParser
             : '/html/body/table[3]/tr/td/div[2]/p';
         $dataNodes = $xPath->query($query);
         $emailAddress = trim($dataNodes->item($dataNodes->length - 1)->textContent);
-        $product = str_replace('Você recebeu um pagamento por TVE ', '', $email->subject);
+        $product = str_replace('Você recebeu um pagamento por P ', '', $email->subject);
+        $product = $product === '1' ? 'mensal' : 'anual';
 
         return new Sale(new Email($emailAddress), $product);
     }
@@ -28,7 +29,7 @@ class MercadoPagoEmailParser extends EmailParser
     protected function canParse(IncomingMail $email): bool
     {
         $emailIsFromMercadoPago = $email->fromAddress === 'info@mercadopago.com';
-        $emailSubjectHasProductType = strpos($email->subject, 'recebeu um pagamento por TVE') !== false;
+        $emailSubjectHasProductType = strpos($email->subject, 'recebeu um pagamento por P') !== false;
 
         return $emailIsFromMercadoPago && $emailSubjectHasProductType;
     }
