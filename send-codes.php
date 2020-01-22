@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/bootstrap.php';
 
+use CViniciusSDias\RecargaTvExpress\Exception\CodeNotFoundException;
 use CViniciusSDias\RecargaTvExpress\Service\SalesFinder;
 use CViniciusSDias\RecargaTvExpress\Service\SerialCodeSender;
 use Psr\Container\ContainerInterface;
@@ -24,8 +25,13 @@ try {
 } catch (\Throwable $error) {
     /** @var LoggerInterface $logger */
     $logger = $container->get(LoggerInterface::class);
-    $logger->error('Erro ao enviar códigos. Mensagem: ' . $error->getMessage(), [
-        'exception' => $error,
+    $context = [
+        'mensagem' => $error->getMessage(),
         'erro' => $error
-    ]);
+    ];
+    if ($error instanceof CodeNotFoundException) {
+        $context['sale'] = $error->sale();
+    }
+
+    $logger->error('Erro ao enviar códigos.', $context);
 }

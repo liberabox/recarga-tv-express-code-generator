@@ -13,7 +13,7 @@ class MercadoPagoEmailParserTest extends TestCase
      * @dataProvider emails
      * @param string $emailBody
      */
-    public function testShouldParseCorrectlyASaleFromMercadoPagoEmails(string $emailBody)
+    public function testShouldParseCorrectlyASaleFromMercadoPagoEmail(string $emailBody)
     {
         // arrange
         $parser = new MercadoPagoEmailParser();
