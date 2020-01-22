@@ -13,7 +13,7 @@ class MercadoPagoEmailParserTest extends TestCase
      * @dataProvider emails
      * @param string $emailBody
      */
-    public function testShouldReturnASalesArrayOnSuccessCase(string $emailBody)
+    public function testShouldParseCorrectlyASaleFromMercadoPagoEmails(string $emailBody)
     {
         // arrange
         $emailSubject = 'Você recebeu um pagamento por P 2';

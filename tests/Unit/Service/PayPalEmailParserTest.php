@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class PayPalEmailParserTest extends TestCase
 {
-    public function testShouldReturnASalesArrayOnSuccessCase()
+    public function testShouldParseCorrectlyASaleFromPayPalEmail()
     {
         // arrange
         $emailBody = file_get_contents(__DIR__ . '/../../data/email-with-payment-from-paypal.html');
@@ -37,7 +37,7 @@ class PayPalEmailParserTest extends TestCase
         // arrange
         $parser = new PayPalEmailParser();
         $incomingMailMock = $this->createStub(IncomingMail::class);
-        $incomingMailMock->fromAddress = 'info@mercadopago.com';
+        $incomingMailMock->fromAddress = 'service@paypal.com.br';
 
         // act
         $parser->parse($incomingMailMock);
