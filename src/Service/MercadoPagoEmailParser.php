@@ -29,7 +29,7 @@ class MercadoPagoEmailParser extends EmailParser
     protected function canParse(IncomingMail $email): bool
     {
         $emailIsFromMercadoPago = $email->fromAddress === 'info@mercadopago.com';
-        $emailSubjectHasProductType = strpos($email->subject, 'recebeu um pagamento por P') !== false;
+        $emailSubjectHasProductType = preg_match('/recebeu um pagamento por P [1-5]/', $email->subject) === 1;
 
         return $emailIsFromMercadoPago && $emailSubjectHasProductType;
     }

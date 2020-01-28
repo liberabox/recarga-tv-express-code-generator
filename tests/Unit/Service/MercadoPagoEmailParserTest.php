@@ -7,9 +7,6 @@ use CViniciusSDias\RecargaTvExpress\Service\MercadoPagoEmailParser;
 use PhpImap\IncomingMail;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @todo Create tests to make sure invalid products aren't parsed
- */
 class MercadoPagoEmailParserTest extends TestCase
 {
     /**
@@ -48,7 +45,7 @@ class MercadoPagoEmailParserTest extends TestCase
         // arrange
         $parser = new MercadoPagoEmailParser();
         $incomingMailMock = $this->createStub(IncomingMail::class);
-        $incomingMailMock->subject = 'Você recebeu um pagamento por Combo MFC + TVE anual';
+        $incomingMailMock->subject = 'Você recebeu um pagamento por P 6';
         $incomingMailMock->fromAddress = 'info@mercadopago.com';
         $incomingMailMock->method('__get')
             ->willReturn('');
