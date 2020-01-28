@@ -20,7 +20,8 @@ class MercadoPagoEmailParser extends EmailParser
             : '/html/body/table[3]/tr/td/div[2]/p';
         $dataNodes = $xPath->query($query);
         $emailAddress = trim($dataNodes->item($dataNodes->length - 1)->textContent);
-        $product = trim(str_replace('Você recebeu um pagamento por P ', '', $email->subject)) === '2' ? 'anual' : 'mensal';
+        $productNumber = trim(str_replace('Você recebeu um pagamento por P ', '', $email->subject));
+        $product = ($productNumber === '2' || $productNumber === '5') ? 'anual' : 'mensal';
 
         return new Sale(new Email($emailAddress), $product);
     }

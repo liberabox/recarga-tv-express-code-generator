@@ -7,6 +7,9 @@ use CViniciusSDias\RecargaTvExpress\Service\MercadoPagoEmailParser;
 use PhpImap\IncomingMail;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @todo Create tests to make sure invalid products aren't parsed
+ */
 class MercadoPagoEmailParserTest extends TestCase
 {
     /**
